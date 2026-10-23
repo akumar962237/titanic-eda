@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Titanic Survival EDA | Ajay Kumar</title>
+<meta name="description" content="Exploratory data analysis of the Titanic dataset using Python, Pandas and Seaborn.">
+<style>
+  :root {
+    --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569;
+    --accent: #2563eb; --border: #e2e8f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0b1220; --card: #111a2e; --text: #e5e7eb; --muted: #94a3b8;
+            --accent: #60a5fa; --border: #1e293b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.9rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.25rem; margin: 36px 0 12px; }
+  p.sub { color: var(--muted); margin: 0 0 16px; }
+  .links a { display: inline-block; margin: 4px 8px 4px 0; padding: 8px 14px; border-radius: 8px;
+             border: 1px solid var(--accent); color: var(--accent); text-decoration: none; font-weight: 600; }
+  .links a:hover { background: var(--accent); color: var(--bg); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-top: 8px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .stat b { display: block; font-size: 1.7rem; color: var(--accent); }
+  .stat span { color: var(--muted); font-size: 0.92rem; }
+  figure { margin: 0 0 20px; background: var(--card); border: 1px solid var(--border);
+           border-radius: 12px; padding: 14px; }
+  figure img { width: 100%; height: auto; border-radius: 8px; background: #fff; }
+  figcaption { margin-top: 10px; color: var(--muted); font-size: 0.95rem; }
+  figcaption b { color: var(--text); }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  code { background: var(--card); border: 1px solid var(--border); padding: 2px 6px; border-radius: 6px; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 0.9rem; border-top: 1px solid var(--border); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Titanic Survival: Exploratory Data Analysis</h1>
+  <p class="sub">Who was more likely to survive, and why? Analysis of 891 passengers using Python, Pandas, Seaborn and Matplotlib.</p>
+  <div class="links">
+    <a href="https://github.com/akumar962237/titanic-eda" target="_blank" rel="noopener">View code on GitHub</a>
+    <a href="https://akumar962237.github.io/Portfolio" target="_blank" rel="noopener">My portfolio</a>
+  </div>
+
+  <h2>Key numbers</h2>
+  <div class="stats">
+    <div class="stat"><b>38.4%</b><span>Overall survival rate</span></div>
+    <div class="stat"><b>74.2% vs 18.9%</b><span>Women vs men survived</span></div>
+    <div class="stat"><b>63.0% vs 24.2%</b><span>1st class vs 3rd class survived</span></div>
+    <div class="stat"><b>58.0%</b><span>Children survived (best age group)</span></div>
+  </div>
+
+  <h2>Charts</h2>
+
+  <figure>
+    <img src="charts/1_survival_by_gender.png" alt="Survival rate by gender" loading="lazy">
+    <figcaption><b>Survival by gender.</b> Gender was the strongest factor: 74.2% of women survived vs 18.9% of men.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="charts/2_survival_by_class_gender.png" alt="Survival rate by class and gender" loading="lazy">
+    <figcaption><b>Survival by class and gender.</b> Women in 1st and 2nd class survived at very high rates, while men in 3rd class had the lowest chances.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="charts/3_survival_by_age_group.png" alt="Survival rate by age group" loading="lazy">
+    <figcaption><b>Survival by age group.</b> Children had the best chances (58.0%), while seniors had the lowest (22.7%).</figcaption>
+  </figure>
+
+  <figure>
+    <img src="charts/4_survival_by_family_size.png" alt="Survival rate by family size" loading="lazy">
+    <figcaption><b>Survival by family size.</b> Passengers travelling alone (30.4%) did worse than those in small families of 2 to 4 people.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="charts/5_fare_by_class.png" alt="Fare distribution by class" loading="lazy">
+    <figcaption><b>Fare by class.</b> Median fares were 60.29 (1st), 14.25 (2nd) and 8.05 (3rd). Log scale is used because a few fares are very high.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="charts/6_correlation_heatmap.png" alt="Correlation heatmap" loading="lazy">
+    <figcaption><b>Correlation heatmap.</b> Class has a negative link with survival (lower class number, higher survival), and fare has a positive link.</figcaption>
+  </figure>
+
+  <h2>How the data was cleaned</h2>
+  <ul>
+    <li><b>Missing values found:</b> <code>age</code> (177), <code>deck</code> (688), <code>embarked</code> and <code>embark_town</code> (2 each).</li>
+    <li><b>deck:</b> dropped, because about 77% of it was missing.</li>
+    <li><b>embarked / embark_town:</b> filled with the most common value (mode).</li>
+    <li><b>age:</b> filled with the median age of each class and gender group, which is more accurate than one overall median.</li>
+    <li><b>Identical-looking rows:</b> 107 rows look duplicated, but the dataset has no name or ID column, so they are different passengers and were kept.</li>
+  </ul>
+
+  <h2>Tools</h2>
+  <p>Python, Pandas, Seaborn, Matplotlib</p>
+
+  <footer>Built by Ajay Kumar | <a href="https://github.com/akumar962237" style="color:var(--accent)">github.com/akumar962237</a></footer>
+</div>
+</body>
+</html>
